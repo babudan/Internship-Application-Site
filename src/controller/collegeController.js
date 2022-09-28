@@ -37,7 +37,7 @@ const createCollege = async function(req,res){
         }
         
         let saveData = await collegeModel.create(document)
-        return res.status(201).send({status: true , data : saveData})
+        return res.status(201).send({status: true , msg : "college cretaed", data : saveData})
 
 
     }catch(err){
@@ -57,15 +57,17 @@ try{
     if (!collegeData){
       return res.status(400).send({ status : true, msg : "collegeData you have provided is incorrect" })
     }
-    let details = await internModel.find({ collegeId: collegeData._id }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
+    let details = await internModel.find({ collegeId: collegeData._id }).select({ _id: 1, name: 1, email: 1, mobile: 1 }).lean();
+    // lean function convert the data which is coming from database bason data into jason data then we can easily add any key with that object but after using lean you lost many functionalities of that document so you cant modify it again menas the details varaible here but for read only data purpose you can use that.
+    details.interns = details;
   
-    var collegenewData = {
-          name: collegeData.name,
-          fullName: collegeData.fullName,
-          logoLink: collegeData.logoLink,  
-          interns: details
-    }
-    return res.status(200).send({ status: true, data: collegenewData})
+    // var collegenewData = {
+    //       name: collegeData.name,
+    //       fullName: collegeData.fullName,
+    //       logoLink: collegeData.logoLink,  
+    //       interns: details
+    // }
+    return res.status(200).send({ status: true, data: details})
   } catch(err){
     return res.status(500).send({ msg: "Error", err: err.message });
   }

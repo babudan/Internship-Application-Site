@@ -21,11 +21,11 @@ app.use('/', route);
 
 // edge case for api req
 app.use((req, res, next) => {
-    res.status(400).send({status: false ,error: "Not found" });
+    res.status(400).send({status: false ,error: "URL IS WRONG" });
    })
 
 
 
-app.listen(process.env.PORT || 3001, function () {
-    console.log('Express app running on port ' + (process.env.PORT || 3001))
+app.listen(process.env.PORT || 3000, function () {
+    console.log('Express app running on port ' + (process.env.PORT || 3000))
 });

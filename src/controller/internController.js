@@ -43,7 +43,7 @@ const createintern = async function (req , res) {
         }
         let saveData= await internModel.create(newIntern)
        
-        return res.status(201).send({ status : true , message : "created succesfuly" ,data : saveData });
+        return res.status(201).send({ status : true , message : "intern created succesfuly" ,data : saveData });
 
     }catch (err) {
         return res.status(400).send({status : false , message : err.message})
