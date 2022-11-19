@@ -33,7 +33,7 @@ const createCollege = async function(req,res){
         let document ={
             name : name.trim() ,
             fullName:fullName.trim(),
-            logoLink:logoLink
+            logoLink:logoLink.trim()
         }
         
         let saveData = await collegeModel.create(document)
@@ -53,13 +53,13 @@ try{
     if (!collegeName){
       return res.status(400).send({ status : true, msg : "collegeName is missing or you left empty" })
     }
-    let collegeData= await collegeModel.findOne({name:collegeName})
+    let collegeData= await collegeModel.findOne({name:collegeName}).select({_id:1,name:1,fullName:1,logoLink:1,}).lean()
     if (!collegeData){
       return res.status(400).send({ status : true, msg : "collegeData you have provided is incorrect" })
     }
-    let details = await internModel.find({ collegeId: collegeData._id }).select({ _id: 1, name: 1, email: 1, mobile: 1 }).lean();
+    let details = await internModel.find({ collegeId: collegeData._id }).select({ _id: 1, name: 1, email: 1, mobile: 1 });
     // lean function convert the data which is coming from database bason data into jason data then we can easily add any key with that object but after using lean you lost many functionalities of that document so you cant modify it again menas the details varaible here but for read only data purpose you can use that.
-    details.interns = details;
+    collegeData.interns = details;
   
     // var collegenewData = {
     //       name: collegeData.name,
@@ -67,7 +67,7 @@ try{
     //       logoLink: collegeData.logoLink,  
     //       interns: details
     // }
-    return res.status(200).send({ status: true, data: details})
+    return res.status(200).send({ status: true, data: collegeData})
   } catch(err){
     return res.status(500).send({ msg: "Error", err: err.message });
   }
@@ -78,3 +78,5 @@ module.exports={
     getdata,
     createCollege
 }
+
+

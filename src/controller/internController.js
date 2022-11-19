@@ -38,7 +38,7 @@ const createintern = async function (req , res) {
         let newIntern = {
             name : name.trim(),
             mobile : mobile.trim(),
-            email : email,
+            email : email.trim(),
             collegeId : collegeid
         }
         let saveData= await internModel.create(newIntern)
@@ -51,4 +51,8 @@ const createintern = async function (req , res) {
 }
 
 
-module.exports.createintern =createintern
+
+
+
+
+module.exports = {createintern}
