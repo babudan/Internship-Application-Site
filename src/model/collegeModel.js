@@ -4,22 +4,22 @@ const collegeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     fullName: {
       type: String,
-      required: true
+      required: true,
     },
     logoLink: {
       type: String,
-      required: true
-     
+      required: true,
     },
     isDeleted: {
       type: Boolean,
-      default: false   
-     
-    }
-},{ timestamps: true });
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("college", collegeSchema);
